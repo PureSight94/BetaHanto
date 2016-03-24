@@ -1,0 +1,16 @@
+Tests for Beta Hanto
+
+X BLUE places first move Butterfly or Sparrow at (0,0) -> OK
+X BLUE player places not Butterfly or Sparrow -> Exception
+X RED player places not Butterfly or Sparrow -> Exception 
+X RED or BLUE tries to move Butterfly or Sparrow -> Exception
+X BLUE places first move Butterfly or Sparrow at non (0,0) -> Exception
+X RED places item on an occupied location -> Exception
+X BLUE places item on an occupied location -> Exception
+X RED or BLUE place piece adjacent to any piece on board -> OK
+X RED or BLUE place piece non adjacent to any piece on board -> Exception
+- RED or BLUE can only place max one butterfly all game
+- RED or BLUE does not place butterfly by 4th turn -> Exception
+- After 6 full turns of each player, Butterfly not surrounded -> Draw
+- After each move, if RED butterfly surrounded -> BLUE wins
+- After each move, if BLUE butterfly surrounded -> RED wins
