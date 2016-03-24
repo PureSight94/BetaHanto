@@ -13,6 +13,9 @@
 package hanto.studentxxx.common;
 
 import hanto.common.HantoCoordinate;
+import hanto.common.HantoException;
+import hanto.common.HantoPiece;
+import java.util.HashMap;
 
 /**
  * The implementation for my version of Hanto.
@@ -21,7 +24,7 @@ import hanto.common.HantoCoordinate;
 public class HantoCoordinateImpl implements HantoCoordinate
 {
 	final private int x, y;
-	
+
 	/**
 	 * The only constructor.
 	 * @param x the x-coordinate
@@ -31,7 +34,7 @@ public class HantoCoordinateImpl implements HantoCoordinate
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	/**
 	 * Copy constructor that creates an instance of HantoCoordinateImpl from an
 	 * object that implements HantoCoordinate.
@@ -41,7 +44,7 @@ public class HantoCoordinateImpl implements HantoCoordinate
 	{
 		this(coordinate.getX(), coordinate.getY());
 	}
-	
+
 	@Override
 	public int getX()
 	{
@@ -53,7 +56,7 @@ public class HantoCoordinateImpl implements HantoCoordinate
 	{
 		return y;
 	}
-	
+
 	/*
 	 * @see java.lang.Object#hashCode()
 	 */
