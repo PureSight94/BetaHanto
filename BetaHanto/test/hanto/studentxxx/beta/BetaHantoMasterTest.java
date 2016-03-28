@@ -153,6 +153,13 @@ public class BetaHantoMasterTest
 		game.makeMove(SPARROW, null, makeCoordinate(2, 2));
 	}
 	
+	@Test(expected = HantoException.class)	//10
+	public void bluePlacesTwoButterflies() throws HantoException {
+		game.makeMove(BUTTERFLY, null, makeCoordinate(0,0));
+		game.makeMove(SPARROW, null, makeCoordinate(0,-1));
+		game.makeMove(BUTTERFLY, null, makeCoordinate(0,-2));
+	}
+	
 	// Helper methods
 	private HantoCoordinate makeCoordinate(int x, int y)
 	{
