@@ -16,16 +16,19 @@ import hanto.common.HantoCoordinate;
 
 /**
  * The implementation for my version of Hanto.
+ * 
  * @version Mar 2, 2016
  */
-public class HantoCoordinateImpl implements HantoCoordinate
-{
-	final private int x, y;
+public class HantoCoordinateImpl implements HantoCoordinate {
+	private final int x, y;
 
 	/**
 	 * The only constructor.
-	 * @param x the x-coordinate
-	 * @param y the y-coordinate
+	 * 
+	 * @param x
+	 *            the x-coordinate
+	 * @param y
+	 *            the y-coordinate
 	 */
 	public HantoCoordinateImpl(int x, int y) {
 		this.x = x;
@@ -35,22 +38,21 @@ public class HantoCoordinateImpl implements HantoCoordinate
 	/**
 	 * Copy constructor that creates an instance of HantoCoordinateImpl from an
 	 * object that implements HantoCoordinate.
-	 * @param coordinate an object that implements the HantoCoordinate interface.
+	 * 
+	 * @param coordinate
+	 *            an object that implements the HantoCoordinate interface.
 	 */
-	public HantoCoordinateImpl(HantoCoordinate coordinate)
-	{
+	public HantoCoordinateImpl(HantoCoordinate coordinate) {
 		this(coordinate.getX(), coordinate.getY());
 	}
 
 	@Override
-	public int getX()
-	{
+	public int getX() {
 		return x;
 	}
 
 	@Override
-	public int getY()
-	{
+	public int getY() {
 		return y;
 	}
 
@@ -58,8 +60,7 @@ public class HantoCoordinateImpl implements HantoCoordinate
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + x;
@@ -71,8 +72,7 @@ public class HantoCoordinateImpl implements HantoCoordinate
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -91,6 +91,5 @@ public class HantoCoordinateImpl implements HantoCoordinate
 		}
 		return true;
 	}
-
 
 }

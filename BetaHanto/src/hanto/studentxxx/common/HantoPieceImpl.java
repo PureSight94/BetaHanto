@@ -14,29 +14,31 @@ import hanto.common.*;
 
 /**
  * Implementation of the HantoPiece.
+ * 
  * @version Mar 2,2016
  */
-public class HantoPieceImpl implements HantoPiece
-{
+public class HantoPieceImpl implements HantoPiece {
 	private final HantoPlayerColor color;
 	private final HantoPieceType type;
-	
+
 	/**
 	 * Deafault constructor
-	 * @param color the piece color
-	 * @param type the piece type
+	 * 
+	 * @param color
+	 *            the piece color
+	 * @param type
+	 *            the piece type
 	 */
-	public HantoPieceImpl(HantoPlayerColor color, HantoPieceType type)
-	{
+	public HantoPieceImpl(HantoPlayerColor color, HantoPieceType type) {
 		this.color = color;
 		this.type = type;
 	}
+
 	/*
 	 * @see hanto.common.HantoPiece#getColor()
 	 */
 	@Override
-	public HantoPlayerColor getColor()
-	{
+	public HantoPlayerColor getColor() {
 		return color;
 	}
 
@@ -44,8 +46,7 @@ public class HantoPieceImpl implements HantoPiece
 	 * @see hanto.common.HantoPiece#getType()
 	 */
 	@Override
-	public HantoPieceType getType()
-	{
+	public HantoPieceType getType() {
 		return type;
 	}
 }
