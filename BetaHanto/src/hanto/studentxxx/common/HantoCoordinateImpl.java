@@ -13,9 +13,6 @@
 package hanto.studentxxx.common;
 
 import hanto.common.HantoCoordinate;
-import hanto.common.HantoException;
-import hanto.common.HantoPiece;
-import java.util.HashMap;
 
 /**
  * The implementation for my version of Hanto.

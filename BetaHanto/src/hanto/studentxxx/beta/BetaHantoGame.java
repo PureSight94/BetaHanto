@@ -19,7 +19,6 @@ import hanto.studentxxx.common.HantoPieceImpl;
 
 import static hanto.common.MoveResult.*;
 
-import java.util.HashMap;
 
 /**
  * <<Fill this in>>
