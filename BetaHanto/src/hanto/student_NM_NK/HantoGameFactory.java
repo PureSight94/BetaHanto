@@ -11,8 +11,8 @@
 package hanto.student_NM_NK;
 
 import hanto.common.*;
-import hanto.studentxxx.alpha.AlphaHantoGame;
-import hanto.studentxxx.beta.BetaHantoGame;
+import hanto.student_NM_NK.alpha.AlphaHantoGame;
+import hanto.student_NM_NK.beta.BetaHantoGame;
 
 /**
  * This is a singleton class that provides a factory to create an instance of any version

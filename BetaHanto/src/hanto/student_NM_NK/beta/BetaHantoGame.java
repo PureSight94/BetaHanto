@@ -10,12 +10,12 @@
  * Copyright ©2016 Gary F. Pollice
  *******************************************************************************/
 
-package hanto.studentxxx.beta;
+package hanto.student_NM_NK.beta;
 
 import hanto.common.*;
-import hanto.studentxxx.common.HantoBoard;
-import hanto.studentxxx.common.HantoCoordinateImpl;
-import hanto.studentxxx.common.HantoPieceImpl;
+import hanto.student_NM_NK.common.HantoBoard;
+import hanto.student_NM_NK.common.HantoCoordinateImpl;
+import hanto.student_NM_NK.common.HantoPieceImpl;
 
 import static hanto.common.MoveResult.*;
 import static hanto.common.HantoPieceType.*;
