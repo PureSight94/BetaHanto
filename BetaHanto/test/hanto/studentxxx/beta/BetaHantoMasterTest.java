@@ -213,6 +213,19 @@ public class BetaHantoMasterTest
 		assertEquals(BLUE_WINS, mr);
 	}
 	
+	@Test()	// 16
+	public void blueButterflySurroundedIfRedGoesFirst() throws HantoException {
+		HantoGame game2 = factory.getInstance().makeHantoGame(HantoGameID.BETA_HANTO, RED);
+		game2.makeMove(BUTTERFLY, null, makeCoordinate(0,0));
+		game2.makeMove(BUTTERFLY, null, makeCoordinate(0,-1));
+		game2.makeMove(SPARROW, null, makeCoordinate(0,-2));
+		game2.makeMove(SPARROW, null, makeCoordinate(-1,0));
+		game2.makeMove(SPARROW, null, makeCoordinate(-1,-1));
+		game2.makeMove(SPARROW, null, makeCoordinate(1,-1));
+		final MoveResult mr = game2.makeMove(SPARROW, null, makeCoordinate(1, -2));
+		assertEquals(RED_WINS, mr);
+	}
+	
 	@Test(expected = HantoException.class)	// 17
 	public void playerMovesAfterGameOver() throws HantoException {
 		game.makeMove(SPARROW, null, makeCoordinate(0,0));
@@ -237,7 +250,7 @@ public class BetaHantoMasterTest
 		game.makeMove(BUTTERFLY, null, makeCoordinate(0,-2));
 		game.makeMove(SPARROW, null, makeCoordinate(0,-3));
 		game.makeMove(SPARROW, null, makeCoordinate(0,-4));
-		System.out.println(game.getPrintableBoard());
+		assertNotNull(game.getPrintableBoard());
 	}
 	
 	

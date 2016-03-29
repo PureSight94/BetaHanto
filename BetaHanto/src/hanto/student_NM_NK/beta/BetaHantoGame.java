@@ -34,6 +34,12 @@ public class BetaHantoGame implements HantoGame {
 	private int moveNum = 1;
 	private boolean isGameOver = false;
 	private HantoBoard hantoBoard = new HantoBoard();
+	private boolean blueFirst = true;
+	
+	public BetaHantoGame(HantoPlayerColor movesFirst) {
+		if(movesFirst == RED)
+			blueFirst = false;
+	}
 
 	/*
 	 * @see hanto.common.HantoGame#makeMove(hanto.common.HantoPieceType,
@@ -42,7 +48,12 @@ public class BetaHantoGame implements HantoGame {
 	@Override
 	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to)
 			throws HantoException {
-		HantoPlayerColor pieceColor = (moveNum % 2 == 0 ? RED : BLUE);
+		HantoPlayerColor pieceColor;
+		if(blueFirst)
+			pieceColor = (moveNum % 2 == 0 ? RED : BLUE);
+		else
+			pieceColor = (moveNum % 2 == 0 ? BLUE : RED);
+
 		HantoCoordinate newTo = new HantoCoordinateImpl(to);
 
 		if (isGameOver) {
