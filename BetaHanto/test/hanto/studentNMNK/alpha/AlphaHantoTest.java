@@ -10,7 +10,7 @@
  * Copyright ©2015 Gary F. Pollice
  *******************************************************************************/
 
-package hanto.studentxxx.alpha;
+package hanto.studentNMNK.alpha;
 
 import static hanto.common.HantoPieceType.*;
 import static hanto.common.HantoPlayerColor.*;
@@ -18,7 +18,7 @@ import static hanto.common.MoveResult.*;
 import static org.junit.Assert.*;
 import org.junit.*;
 import hanto.common.*;
-import hanto.student_NM_NK.alpha.AlphaHantoGame;
+import hanto.studentNMNK.alpha.AlphaHantoGame;
 
 /**
  * Test cases for Alpha Hanto

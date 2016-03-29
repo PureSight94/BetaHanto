@@ -7,7 +7,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
-package hanto.student_NM_NK.common;
+package hanto.studentNMNK.common;
 
 import java.util.ArrayList;
 import java.util.HashMap;

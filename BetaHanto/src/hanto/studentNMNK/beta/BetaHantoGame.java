@@ -10,19 +10,19 @@
  * Copyright ©2016 Gary F. Pollice
  *******************************************************************************/
 
-package hanto.student_NM_NK.beta;
+package hanto.studentNMNK.beta;
 
 import hanto.common.*;
-import hanto.student_NM_NK.common.HantoBoard;
-import hanto.student_NM_NK.common.HantoCoordinateImpl;
-import hanto.student_NM_NK.common.HantoPieceImpl;
+import hanto.studentNMNK.common.HantoBoard;
+import hanto.studentNMNK.common.HantoCoordinateImpl;
+import hanto.studentNMNK.common.HantoPieceImpl;
 
 import static hanto.common.MoveResult.*;
 import static hanto.common.HantoPieceType.*;
 import static hanto.common.HantoPlayerColor.*;
 
 /**
- * <<Fill this in>>
+ * Beta Hanto Game class that is responsible for all moves made during a Beta Hanto game
  * 
  * @version Mar 16, 2016
  */
@@ -35,10 +35,19 @@ public class BetaHantoGame implements HantoGame {
 	private boolean isGameOver = false;
 	private HantoBoard hantoBoard = new HantoBoard();
 	private boolean blueFirst = true;
-	
+	private final int MAX_MOVES = 12;
+	private final int BUTTERFLY_MUST_BE_PLAYED_MOVE_NUM = 4;
+
+	/**
+	 * Constructor for the BetaHantoGame class where the color of the player is
+	 * specified This defaults to blue if there is nothing specified
+	 * 
+	 * @param movesFirst
+	 */
 	public BetaHantoGame(HantoPlayerColor movesFirst) {
-		if(movesFirst == RED)
+		if (movesFirst == RED) {
 			blueFirst = false;
+		}
 	}
 
 	/*
@@ -49,12 +58,12 @@ public class BetaHantoGame implements HantoGame {
 	public MoveResult makeMove(HantoPieceType pieceType, HantoCoordinate from, HantoCoordinate to)
 			throws HantoException {
 		HantoPlayerColor pieceColor;
-		if(blueFirst)
+		HantoCoordinateImpl newTo = new HantoCoordinateImpl(to);
+		if (blueFirst) {
 			pieceColor = (moveNum % 2 == 0 ? RED : BLUE);
-		else
+		} else {
 			pieceColor = (moveNum % 2 == 0 ? BLUE : RED);
-
-		HantoCoordinate newTo = new HantoCoordinateImpl(to);
+		}
 
 		if (isGameOver) {
 			throw new HantoException("Player attempted to make a move after the game ended");
@@ -68,11 +77,11 @@ public class BetaHantoGame implements HantoGame {
 			throw new HantoException("Can only use Sparrow and Butterfly in Beta Hanto");
 		}
 
-		if (!isValidMove(pieceType, pieceColor, to)) {
+		if (!isValidMove(pieceType, pieceColor, newTo)) {
 			throw new HantoException("Invalid move");
 		}
 
-		hantoBoard.AddPieceToBoard(new HantoPieceImpl(pieceColor, pieceType), to);
+		hantoBoard.AddPieceToBoard(new HantoPieceImpl(pieceColor, pieceType), newTo);
 
 		if (pieceType == BUTTERFLY) {
 			if (pieceColor == BLUE) {
@@ -82,7 +91,8 @@ public class BetaHantoGame implements HantoGame {
 			}
 		}
 
-		if ((moveNum >= 12) || (hantoBoard.isButterflySurrounded(RED) && (hantoBoard.isButterflySurrounded(BLUE)))) {
+		if ((moveNum >= MAX_MOVES)
+				|| (hantoBoard.isButterflySurrounded(RED) && (hantoBoard.isButterflySurrounded(BLUE)))) {
 			isGameOver = true;
 			return DRAW;
 		} else if (hantoBoard.isButterflySurrounded(RED)) {
@@ -107,11 +117,10 @@ public class BetaHantoGame implements HantoGame {
 	 * @return whether the given move is valid
 	 * @throws HantoException
 	 */
-	public boolean isValidMove(HantoPieceType pieceType, HantoPlayerColor pieceColor, HantoCoordinate to)
+	public boolean isValidMove(HantoPieceType pieceType, HantoPlayerColor pieceColor, HantoCoordinateImpl to)
 			throws HantoException {
-		HantoCoordinateImpl newTo = new HantoCoordinateImpl(to);
 
-		if (!isValidFirstMove(newTo)) {
+		if (!isValidFirstMove(to)) {
 			return false;
 		}
 		isButterflyPlayedTwice(pieceType, pieceColor);
@@ -122,7 +131,6 @@ public class BetaHantoGame implements HantoGame {
 	/**
 	 * Checks if the first piece is placed at coordinate 0,0 as specified by the
 	 * BetaHanto rule set
-	 * 
 	 * @param newTo
 	 * @return whether the first move of the game is valid
 	 */
@@ -162,7 +170,7 @@ public class BetaHantoGame implements HantoGame {
 	 * @throws HantoException
 	 */
 	public void isButterflyPlayedByFourthTurn(boolean bluePlayed, boolean redPlayed) throws HantoException {
-		if ((!redPlayed || !bluePlayed) && (moveNum / 2 > 4)) {
+		if ((!redPlayed || !bluePlayed) && (moveNum / 2 > BUTTERFLY_MUST_BE_PLAYED_MOVE_NUM)) {
 			throw new HantoException("Fourth turn and butterfly has not been played yet");
 		}
 	}

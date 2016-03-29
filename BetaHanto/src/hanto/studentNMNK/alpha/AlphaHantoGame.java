@@ -10,10 +10,10 @@
  * Copyright ©2015 Gary F. Pollice
  *******************************************************************************/
 
-package hanto.student_NM_NK.alpha;
+package hanto.studentNMNK.alpha;
 
 import hanto.common.*;
-import hanto.student_NM_NK.common.*;
+import hanto.studentNMNK.common.*;
 
 import static hanto.common.MoveResult.*;
 import static hanto.common.HantoPieceType.*;
