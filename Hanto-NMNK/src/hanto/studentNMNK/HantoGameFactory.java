@@ -13,6 +13,10 @@ package hanto.studentNMNK;
 import hanto.common.*;
 import hanto.studentNMNK.alpha.AlphaHantoGame;
 import hanto.studentNMNK.beta.BetaHantoGame;
+import hanto.studentNMNK.common.validator.BetaHantoRules;
+import hanto.studentNMNK.common.validator.GammaHantoRules;
+import hanto.studentNMNK.common.validator.Validator;
+import hanto.studentNMNK.gamma.GammaHantoGame;
 
 /**
  * This is a singleton class that provides a factory to create an instance of
@@ -57,13 +61,18 @@ public class HantoGameFactory {
 	 */
 	public HantoGame makeHantoGame(HantoGameID gameId, HantoPlayerColor movesFirst) {
 		HantoGame game = null;
+		Validator validator = null;
 		switch (gameId) {
 		case ALPHA_HANTO:
 			game = new AlphaHantoGame();
 			break;
 		case BETA_HANTO:
-			game = new BetaHantoGame(movesFirst);
+			validator = new BetaHantoRules();
+			game = new BetaHantoGame(movesFirst, validator);
 			break;
+		case GAMMA_HANTO:
+			validator = new GammaHantoRules();
+			game = new GammaHantoGame(movesFirst);
 		}
 		return game;
 	}

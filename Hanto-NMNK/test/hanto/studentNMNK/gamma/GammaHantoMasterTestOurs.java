@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
 
-package hanto.studentNMNK.beta;
+package hanto.studentNMNK.gamma;
 
 import static hanto.common.HantoPieceType.*;
 import static hanto.common.MoveResult.*;
@@ -24,7 +24,7 @@ import org.junit.*;
  * 
  * @version Sep 14, 2014
  */
-public class BetaHantoMasterTest {
+public class GammaHantoMasterTestOurs {
 	/**
 	 * Internal class for these test cases.
 	 * 
@@ -67,7 +67,7 @@ public class BetaHantoMasterTest {
 	@Before
 	public void setup() {
 		// By default, blue moves first.
-		game = factory.makeHantoGame(HantoGameID.BETA_HANTO, BLUE);
+		game = factory.makeHantoGame(HantoGameID.GAMMA_HANTO, BLUE);
 	}
 
 	@Test // 1
@@ -81,7 +81,14 @@ public class BetaHantoMasterTest {
 
 	@Test(expected = HantoException.class) // 2
 	public void bluePlacesInitialPieceNotButterflyOrSparrow() throws HantoException {
-		final MoveResult mr = game.makeMove(CRAB, null, makeCoordinate(0, 0));
+		game.makeMove(CRAB, null, makeCoordinate(0, 0));
+	}
+	
+	@Test (expected = HantoException.class)
+	public void pieceMovedNextToOpposingColor() throws HantoException {
+		game.makeMove(BUTTERFLY, null, makeCoordinate(0, 0));
+		game.makeMove(BUTTERFLY, null, makeCoordinate(0, 1));
+		game.makeMove(SPARROW, makeCoordinate(0,0), makeCoordinate(1, 0));
 	}
 
 	@Test(expected = HantoException.class) // 3
@@ -167,7 +174,7 @@ public class BetaHantoMasterTest {
 	}
 
 	@Test() // 14
-	public void drawAfterSixMoves() throws HantoException {
+	public void drawAfterTenMoves() throws HantoException {
 		game.makeMove(SPARROW, null, makeCoordinate(0, 0));
 		game.makeMove(BUTTERFLY, null, makeCoordinate(0, -1));
 		game.makeMove(BUTTERFLY, null, makeCoordinate(0, -2));
@@ -179,7 +186,15 @@ public class BetaHantoMasterTest {
 		game.makeMove(SPARROW, null, makeCoordinate(0, -8));
 		game.makeMove(SPARROW, null, makeCoordinate(0, -9));
 		game.makeMove(SPARROW, null, makeCoordinate(0, -10));
-		final MoveResult mr = game.makeMove(SPARROW, null, makeCoordinate(0, -11));
+		game.makeMove(SPARROW, null, makeCoordinate(0, -11));
+		game.makeMove(SPARROW, null, makeCoordinate(0, -12));
+		game.makeMove(SPARROW, null, makeCoordinate(0, -13));
+		game.makeMove(SPARROW, null, makeCoordinate(0, -14));
+		game.makeMove(SPARROW, null, makeCoordinate(0, -15));
+		game.makeMove(SPARROW, null, makeCoordinate(0, -16));
+		game.makeMove(SPARROW, null, makeCoordinate(0, -17));
+		game.makeMove(SPARROW, null, makeCoordinate(0, -18));
+		final MoveResult mr = game.makeMove(SPARROW, null, makeCoordinate(0, -19));
 		assertEquals(DRAW, mr);
 	}
 

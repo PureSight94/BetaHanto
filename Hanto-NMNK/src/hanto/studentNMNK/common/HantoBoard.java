@@ -85,6 +85,10 @@ public class HantoBoard {
 		adjacent.add(new HantoCoordinateImpl(x, y - 1));
 		adjacent.add(new HantoCoordinateImpl(x + 1, y - 1));
 		adjacent.add(new HantoCoordinateImpl(x - 1, y + 1));
+		for(HantoCoordinateImpl coor : adjacent)
+		{
+			System.out.println(coor.toString());
+		}
 		return adjacent;
 	}
 
@@ -167,6 +171,10 @@ public class HantoBoard {
 					+ currentBoard.get(key).getType().getPrintableName() + "\n";
 		}
 		return boardState;
+	}
+	
+	public HantoPiece getPieceAtLocation(HantoCoordinate location) {
+		return currentBoard.get(location);
 	}
 
 }

@@ -10,7 +10,7 @@
  * Copyright ©2016 Gary F. Pollice
  *******************************************************************************/
 
-package hanto.studentNMNK.beta;
+package hanto.studentNMNK.gamma;
 
 import hanto.common.*;
 import hanto.studentNMNK.common.HantoBoard;
@@ -22,11 +22,11 @@ import static hanto.common.HantoPieceType.*;
 import static hanto.common.HantoPlayerColor.*;
 
 /**
- * Beta Hanto Game class that is responsible for all moves made during a Beta Hanto game
+ * Gamma Hanto Game class that is responsible for all moves made during a Gamma Hanto game
  * 
  * @version Mar 16, 2016
  */
-public class BetaHantoGame implements HantoGame {
+public class GammaHantoGame implements HantoGame {
 
 	private boolean firstMove = true;
 	private boolean redPlayedButterfly = false;
@@ -35,16 +35,16 @@ public class BetaHantoGame implements HantoGame {
 	private boolean isGameOver = false;
 	private HantoBoard hantoBoard = new HantoBoard();
 	private boolean blueFirst = true;
-	private final int MAX_MOVES = 12;
+	private final int MAX_MOVES = 20;
 	private final int BUTTERFLY_MUST_BE_PLAYED_MOVE_NUM = 4;
 
 	/**
-	 * Constructor for the BetaHantoGame class where the color of the player is
+	 * Constructor for the GammaHantoGame class where the color of the player is
 	 * specified This defaults to blue if there is nothing specified
 	 * 
 	 * @param movesFirst
 	 */
-	public BetaHantoGame(HantoPlayerColor movesFirst) {
+	public GammaHantoGame(HantoPlayerColor movesFirst) {
 		if (movesFirst == RED) {
 			blueFirst = false;
 		}
@@ -70,11 +70,11 @@ public class BetaHantoGame implements HantoGame {
 		}
 
 		if (from != null) {
-			throw new HantoException("Beta Hanto does not support the moving of pieces");
+			throw new HantoException("Gamma Hanto does not support the moving of pieces");
 		}
 
 		if (!pieceType.equals(HantoPieceType.SPARROW) && !pieceType.equals(HantoPieceType.BUTTERFLY)) {
-			throw new HantoException("Can only use Sparrow and Butterfly in Beta Hanto");
+			throw new HantoException("Can only use Sparrow and Butterfly in Gamma Hanto");
 		}
 
 		if (!isValidMove(pieceType, pieceColor, newTo)) {
@@ -91,8 +91,7 @@ public class BetaHantoGame implements HantoGame {
 			}
 		}
 
-		if ((moveNum >= MAX_MOVES)
-				|| (hantoBoard.isButterflySurrounded(RED) && (hantoBoard.isButterflySurrounded(BLUE)))) {
+		if (hantoBoard.isButterflySurrounded(RED) && (hantoBoard.isButterflySurrounded(BLUE))) {
 			isGameOver = true;
 			return DRAW;
 		} else if (hantoBoard.isButterflySurrounded(RED)) {
@@ -102,6 +101,12 @@ public class BetaHantoGame implements HantoGame {
 			isGameOver = true;
 			return RED_WINS;
 		}
+		
+		if(moveNum >= MAX_MOVES)
+		{
+			isGameOver = true;
+			return DRAW;
+		}
 
 		moveNum++;
 		return OK;
@@ -109,7 +114,7 @@ public class BetaHantoGame implements HantoGame {
 
 	/**
 	 * Checks if the player is making a valid move under the rule set defined in
-	 * the BetaHnato Game
+	 * the GammaHnato Game
 	 * 
 	 * @param pieceType
 	 * @param pieceColor
@@ -130,7 +135,7 @@ public class BetaHantoGame implements HantoGame {
 
 	/**
 	 * Checks if the first piece is placed at coordinate 0,0 as specified by the
-	 * BetaHanto rule set
+	 * GammaHanto rule set
 	 * @param newTo
 	 * @return whether the first move of the game is valid
 	 */
@@ -170,7 +175,9 @@ public class BetaHantoGame implements HantoGame {
 	 * @throws HantoException
 	 */
 	public void isButterflyPlayedByFourthTurn(boolean bluePlayed, boolean redPlayed) throws HantoException {
-		if ((!redPlayed || !bluePlayed) && (moveNum / 2 > BUTTERFLY_MUST_BE_PLAYED_MOVE_NUM)) {
+		boolean isMaxMoveToPlayButterfly = Math.round(((double)moveNum / 2)) == BUTTERFLY_MUST_BE_PLAYED_MOVE_NUM;
+		boolean butterflyNotPlayed = !redPlayed || !bluePlayed;
+		if (butterflyNotPlayed && isMaxMoveToPlayButterfly) {
 			throw new HantoException("Fourth turn and butterfly has not been played yet");
 		}
 	}
@@ -181,10 +188,7 @@ public class BetaHantoGame implements HantoGame {
 	@Override
 	public HantoPiece getPieceAt(HantoCoordinate where) {
 		HantoCoordinate newWhere = new HantoCoordinateImpl(where);
-		if (newWhere.equals(new HantoCoordinateImpl(0, 0))) {
-			return new HantoPieceImpl(HantoPlayerColor.BLUE, HantoPieceType.BUTTERFLY);
-		}
-		return null;
+		return hantoBoard.getPieceAtLocation(newWhere);
 	}
 
 	/*
