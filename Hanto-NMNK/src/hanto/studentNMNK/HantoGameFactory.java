@@ -71,8 +71,8 @@ public class HantoGameFactory {
 			game = new BetaHantoGame(movesFirst, validator);
 			break;
 		case GAMMA_HANTO:
-			validator = new GammaHantoRules();
-			game = new GammaHantoGame(movesFirst);
+			validator = new GammaHantoRules(movesFirst);
+			game = new GammaHantoGame(validator);
 		}
 		return game;
 	}

@@ -68,4 +68,6 @@ public interface Validator {
 	boolean isOccupied(HantoCoordinate coordinate);
 
 	MoveResult getBoardState();
+	
+	HantoPlayerColor getPlayerColor();
 }

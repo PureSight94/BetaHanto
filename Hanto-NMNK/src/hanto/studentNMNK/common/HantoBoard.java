@@ -28,6 +28,22 @@ public class HantoBoard {
 
 	private Map<HantoCoordinateImpl, HantoPiece> currentBoard = new HashMap<HantoCoordinateImpl, HantoPiece>();
 
+	public HantoBoard(HantoBoard hantoBoard) {
+		currentBoard = hantoBoard.currentBoard;
+	}
+
+	public HantoBoard() {
+
+	}
+
+	public Map<HantoCoordinateImpl, HantoPiece> getHantoBoardHash() {
+		return currentBoard;
+	}
+
+	public void setHantoBoardHash(Map<HantoCoordinateImpl, HantoPiece> board) {
+		currentBoard = board;
+	}
+
 	/**
 	 * Adds a piece that has been placed to the "board" implementation
 	 * 
@@ -62,11 +78,11 @@ public class HantoBoard {
 	 * @return true if the two coordinates are adjacent, false otherwise
 	 */
 	public static boolean isAdjacent(HantoCoordinate from, HantoCoordinate to) {
-		HantoCoordinateImpl dist = DistanceTo(from, to);
-		if (dist.getX() + dist.getY() != 1) {
-			return false;
+		if (getAdjacent(from).contains(to)) {
+			return true;
 		}
-		return true;
+
+		return false;
 	}
 
 	/**
@@ -79,17 +95,26 @@ public class HantoBoard {
 		List<HantoCoordinateImpl> adjacent = new ArrayList<HantoCoordinateImpl>();
 		final int x = coordinate.getX();
 		final int y = coordinate.getY();
-		adjacent.add(new HantoCoordinateImpl(x + 1, y));
 		adjacent.add(new HantoCoordinateImpl(x, y + 1));
-		adjacent.add(new HantoCoordinateImpl(x - 1, y));
-		adjacent.add(new HantoCoordinateImpl(x, y - 1));
+		adjacent.add(new HantoCoordinateImpl(x + 1, y));
 		adjacent.add(new HantoCoordinateImpl(x + 1, y - 1));
+		adjacent.add(new HantoCoordinateImpl(x, y - 1));
+		adjacent.add(new HantoCoordinateImpl(x - 1, y));
 		adjacent.add(new HantoCoordinateImpl(x - 1, y + 1));
-		for(HantoCoordinateImpl coor : adjacent)
-		{
+		for (HantoCoordinateImpl coor : adjacent) {
 			System.out.println(coor.toString());
 		}
 		return adjacent;
+	}
+
+	public List<HantoCoordinateImpl> getTakenAdjacentHexes(HantoCoordinate coordinate) {
+		List<HantoCoordinateImpl> adjacent = getAdjacent(coordinate);
+		List<HantoCoordinateImpl> adjacentTaken = new ArrayList<HantoCoordinateImpl>();
+		for (HantoCoordinateImpl coord : adjacent) {
+			if (isTaken(coord))
+				adjacentTaken.add(coord);
+		}
+		return adjacentTaken;
 	}
 
 	/**
@@ -172,9 +197,13 @@ public class HantoBoard {
 		}
 		return boardState;
 	}
-	
+
 	public HantoPiece getPieceAtLocation(HantoCoordinate location) {
 		return currentBoard.get(location);
+	}
+
+	public HantoBoard cloneBoard() {
+		return new HantoBoard(this);
 	}
 
 }
