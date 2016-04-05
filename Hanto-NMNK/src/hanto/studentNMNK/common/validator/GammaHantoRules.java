@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * This files was developed for CS4233: Object-Oriented Analysis & Design.  
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
 package hanto.studentNMNK.common.validator;
 
 import static hanto.common.HantoPieceType.BUTTERFLY;
@@ -8,31 +17,39 @@ import static hanto.common.MoveResult.DRAW;
 import static hanto.common.MoveResult.OK;
 import static hanto.common.MoveResult.RED_WINS;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
+import hanto.common.HantoPiece;
 import hanto.common.HantoPieceType;
 import hanto.common.HantoPlayerColor;
 import hanto.common.MoveResult;
 import hanto.studentNMNK.common.HantoBoard;
 import hanto.studentNMNK.common.HantoCoordinateImpl;
 
+/**
+ * This class contains the specific validation rules to the Gamma version of Hanto 
+ * while still containing the common rules defined in AbsValidator
+ * @author Nicholas Muesch & Nicholas Kalamvokis
+ *
+ */
 public class GammaHantoRules extends AbsValidator {
 
 	private final int BUTTERFLY_MUST_BE_PLAYED_MOVE_NUM = 4;
 	private final int MAX_MOVES = 20;
 
+	/**
+	 * Checks which player is the first player and sets the appropriate class fields
+	 * @param movesFirst
+	 */
 	public GammaHantoRules(HantoPlayerColor movesFirst) {
-		if (movesFirst == BLUE)
+		if (movesFirst == BLUE) {
 			blueFirst = true;
-		else
+		}
+		else {
 			blueFirst = false;
-	}
-
-	public GammaHantoRules() {
-		blueFirst = true;
+		}
 	}
 
 	/**
@@ -53,6 +70,10 @@ public class GammaHantoRules extends AbsValidator {
 			throw new HantoException("Player attempted to make a move after the game ended");
 		}
 
+		if(isButterflyPlacedBeforeMove(from)) {
+			throw new HantoException("Player attempted to move a piece before placing a butterfly");
+		}
+		
 		if (!pieceType.equals(HantoPieceType.SPARROW) && !pieceType.equals(HantoPieceType.BUTTERFLY)) {
 			throw new HantoException("Can only use Sparrow and Butterfly in Beta Hanto");
 		}
@@ -98,7 +119,7 @@ public class GammaHantoRules extends AbsValidator {
 		HantoPlayerColor currentColor = getPlayerColor();
 		if (from != null) {
 			newFrom = new HantoCoordinateImpl(from);
-			if (isValidWalk(newTo, newFrom)) {
+			if (isValidPieceType(newFrom) && isValidWalk(newTo, newFrom)) {
 				return true;
 			}
 			return false;
@@ -111,11 +132,21 @@ public class GammaHantoRules extends AbsValidator {
 		}
 	}
 
+	private boolean isValidPieceType(HantoCoordinateImpl newFrom) {
+		HantoPiece currentPiece = board.getPieceAtLocation(newFrom);
+		if(currentPiece.getType() == (pieceType)
+				&& getPlayerColor() == currentPiece.getColor())  {
+			return true;
+		}
+		return false;
+	}
+
 	private boolean isAdjacentToPieceOfOpposingColor(HantoCoordinateImpl newTo, HantoPlayerColor currentColor) {
 		List<HantoCoordinateImpl> adjacentHexes = board.getTakenAdjacentHexes(newTo);
 		for (HantoCoordinateImpl i : adjacentHexes) {
-			if (board.getPieceAtLocation(i).getColor() != currentColor)
+			if (board.getPieceAtLocation(i).getColor() != currentColor) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -125,9 +156,9 @@ public class GammaHantoRules extends AbsValidator {
 	 */
 	@Override
 	public void updateGame(int moveNumber, HantoBoard currentBoard) {
-		this.moveNum = moveNumber;
-		this.board = currentBoard;
-		this.pieceColor = getPlayerColor();
+		moveNum = moveNumber;
+		board = currentBoard;
+		pieceColor = getPlayerColor();
 	}
 
 	/**

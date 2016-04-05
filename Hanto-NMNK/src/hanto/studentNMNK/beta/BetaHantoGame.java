@@ -37,6 +37,7 @@ public class BetaHantoGame implements HantoGame {
 	 * specified This defaults to blue if there is nothing specified
 	 * 
 	 * @param movesFirst
+	 * @param validator
 	 */
 	public BetaHantoGame(HantoPlayerColor movesFirst, Validator validator) {
 		if (movesFirst == RED) {

@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * This files was developed for CS4233: Object-Oriented Analysis & Design.  
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
 package hanto.studentNMNK.common.validator;
 
 import static hanto.common.HantoPieceType.BUTTERFLY;
@@ -7,7 +16,6 @@ import static hanto.common.HantoPlayerColor.RED;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import hanto.common.HantoCoordinate;
 import hanto.common.HantoException;
@@ -18,6 +26,12 @@ import hanto.studentNMNK.common.HantoBoard;
 import hanto.studentNMNK.common.HantoCoordinateImpl;
 import hanto.studentNMNK.common.HantoPieceImpl;
 
+/**
+ * An abstract class with all of the common methods needed to validate a Hanto Game move
+ * This is used for any subsequent version of the Hanto game. 
+ * @author Nicholas Muesch & Nicholas Kalamvokis
+ *
+ */
 public abstract class AbsValidator implements Validator {
 
 	protected boolean redPlayedButterfly = false;
@@ -27,6 +41,11 @@ public abstract class AbsValidator implements Validator {
 	protected boolean isGameOver = false;
 	protected boolean blueFirst;
 	protected HantoPlayerColor pieceColor;
+	protected HantoPieceType pieceType;
+
+	public void setPieceType(HantoPieceType pieceType) {
+		this.pieceType = pieceType;
+	}
 
 	public HantoPlayerColor getPlayerColor() {
 		if (blueFirst) {
@@ -35,6 +54,22 @@ public abstract class AbsValidator implements Validator {
 			pieceColor = (moveNum % 2 == 0 ? BLUE : RED);
 		}
 		return pieceColor;
+	}
+
+	/**
+	 * Checks if the current player tries to move before they have placed their buttefly piece
+	 * @param from
+	 * @return true if the butterfly is already placed when attempting to move, false otherwise
+	 */
+	public boolean isButterflyPlacedBeforeMove(HantoCoordinate from) {
+		HantoPlayerColor currentColor = getPlayerColor();
+		boolean blueCannotMove = ((currentColor == BLUE) && !bluePlayedButterfly);
+		boolean redCannotMove = ((currentColor == RED) && !redPlayedButterfly);
+		if(from != null && (blueCannotMove || redCannotMove))
+		{
+			return true;
+		}
+	return false;
 	}
 
 	/**
@@ -54,6 +89,12 @@ public abstract class AbsValidator implements Validator {
 		}
 	}
 
+	/**
+	 * Checks to see if the player attempting to "walk" a piece is moving in a valid way
+	 * @param to
+	 * @param from
+	 * @return true if the walk is valid, false otherwise
+	 */
 	public boolean isValidWalk(HantoCoordinate to, HantoCoordinate from) {
 		HantoCoordinateImpl newTo = new HantoCoordinateImpl(to);
 		HantoCoordinateImpl newFrom = new HantoCoordinateImpl(from);
@@ -62,7 +103,7 @@ public abstract class AbsValidator implements Validator {
 		int leftOfTo = indexOfTo - 1;
 		int rightOfTo = indexOfTo + 1;
 
-		if (indexOfTo + 1 > adjacent.size()) {
+		if (indexOfTo + 1 > adjacent.size() -1) {
 			rightOfTo = 0;
 		}
 		if (indexOfTo - 1 < 0) {
@@ -71,40 +112,46 @@ public abstract class AbsValidator implements Validator {
 		if (board.isTaken(newTo)) {
 			return false;
 		}
-		if ((!board.isTaken(adjacent.get(leftOfTo)) || !board.isTaken(adjacent.get(rightOfTo)))
-				&& isContiguous(newFrom, newTo) && HantoBoard.isAdjacent(newFrom, newTo))
+		if ((!board.isTaken(adjacent.get(leftOfTo)) || !board.isTaken(adjacent.get(rightOfTo))) 
+				&& HantoBoard.isAdjacent(newFrom, newTo) && isContiguous(newFrom, newTo)) {
 			return true;
+		}
 		return false;
 	}
 
+	/**
+	 * Checks to see if the board state is currently one contiguous grouping
+	 * @param newFrom
+	 * @param newTo
+	 * @return true if the board is one large grouping, false otherwise
+	 */
 	public boolean isContiguous(HantoCoordinateImpl newFrom, HantoCoordinateImpl newTo) {
-
-		HantoBoard newBoard = board.cloneBoard();
+		HantoBoard newBoard = new HantoBoard(board);
 		Map<HantoCoordinateImpl, HantoPiece> newBoardHash = newBoard.getHantoBoardHash();
 		newBoardHash.remove(newFrom);
 		newBoardHash.put(newTo, new HantoPieceImpl(pieceColor, BUTTERFLY));
 		newBoard.setHantoBoardHash(newBoardHash);
 		System.out.println(newBoard.printBoard());
 
-		ArrayList<HantoCoordinateImpl> covered = new ArrayList<HantoCoordinateImpl>();
-		ArrayList<HantoCoordinateImpl> notCovered = new ArrayList<HantoCoordinateImpl>();
-		ArrayList<HantoCoordinateImpl> toCover = new ArrayList<HantoCoordinateImpl>();
+		List<HantoCoordinateImpl> covered = new ArrayList<HantoCoordinateImpl>();
+		List<HantoCoordinateImpl> notCovered = new ArrayList<HantoCoordinateImpl>();
+		List<HantoCoordinateImpl> toCover = new ArrayList<HantoCoordinateImpl>();
 
 		notCovered.add(newTo);
 		while (notCovered.size() > 0) {
 			for (HantoCoordinateImpl checkCoord : notCovered) {
 				for (HantoCoordinateImpl coord : newBoard.getTakenAdjacentHexes(checkCoord)) {
-						toCover.add(coord);
+					toCover.add(coord);
 				}
 				covered.add(checkCoord);
 			}
-			
+
 			for (HantoCoordinateImpl newCoord : toCover) {
 				if (!notCovered.contains(newCoord)) {
 					notCovered.add(newCoord);
 				}
 			}
-			
+
 			for (HantoCoordinateImpl checkCoord : covered) {
 				if (notCovered.contains(checkCoord)) {
 					notCovered.remove(checkCoord);

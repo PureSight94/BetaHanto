@@ -1,5 +1,5 @@
 /*******************************************************************************
- * This files was developed for CS4233: Object-Oriented Analysis & Design. 
+ * This files was developed for CS4233: Object-Oriented Analysis & Design.  
  * The course was taken at Worcester Polytechnic Institute.
  *
  * All rights reserved. This program and the accompanying materials
@@ -28,6 +28,10 @@ public class HantoBoard {
 
 	private Map<HantoCoordinateImpl, HantoPiece> currentBoard = new HashMap<HantoCoordinateImpl, HantoPiece>();
 
+	/**
+	 * Copy constructor for HantoBoard
+	 * @param hantoBoard
+	 */
 	public HantoBoard(HantoBoard hantoBoard) {
 		currentBoard = hantoBoard.currentBoard;
 	}
@@ -54,20 +58,14 @@ public class HantoBoard {
 		HantoCoordinateImpl newCord = new HantoCoordinateImpl(coordinate);
 		currentBoard.put(newCord, piece);
 	}
-
+	
 	/**
-	 * Calculates the distance between any two HantoCoordinates
-	 * 
-	 * @param from
-	 * @param to
-	 * @return a HantoCoordinateImpl with the calculated x and y distances
+	 * Removes a piece that has been placed on the "board" implementation
+	 * @param coordinate
 	 */
-	public static HantoCoordinateImpl DistanceTo(HantoCoordinate from, HantoCoordinate to) {
-		int fromX = Math.abs(from.getX());
-		int fromY = Math.abs(from.getY());
-		int toX = Math.abs(to.getX());
-		int toY = Math.abs(to.getY());
-		return new HantoCoordinateImpl(Math.abs(fromX - toX), Math.abs(fromY - toY));
+	public void removePieceToBoard(HantoCoordinate coordinate) {
+		HantoCoordinateImpl newCord = new HantoCoordinateImpl(coordinate);
+		currentBoard.remove(newCord);
 	}
 
 	/**
@@ -107,12 +105,18 @@ public class HantoBoard {
 		return adjacent;
 	}
 
+	/**
+	 * Gets the adjacent hexes of a given hex that are currently occupied
+	 * @param coordinate
+	 * @return a List of the HantoCoordinated corresponding to the occupied hexes surrounding a location
+	 */
 	public List<HantoCoordinateImpl> getTakenAdjacentHexes(HantoCoordinate coordinate) {
 		List<HantoCoordinateImpl> adjacent = getAdjacent(coordinate);
 		List<HantoCoordinateImpl> adjacentTaken = new ArrayList<HantoCoordinateImpl>();
 		for (HantoCoordinateImpl coord : adjacent) {
-			if (isTaken(coord))
+			if (isTaken(coord)) {
 				adjacentTaken.add(coord);
+			}
 		}
 		return adjacentTaken;
 	}
@@ -198,12 +202,13 @@ public class HantoBoard {
 		return boardState;
 	}
 
+	/**
+	 * Retrieves information about a piece at a given location on the HantoBoard
+	 * @param location
+	 * @return the HantoPiece at the current coordinate
+	 */
 	public HantoPiece getPieceAtLocation(HantoCoordinate location) {
 		return currentBoard.get(location);
-	}
-
-	public HantoBoard cloneBoard() {
-		return new HantoBoard(this);
 	}
 
 }

@@ -18,10 +18,6 @@ import hanto.studentNMNK.common.HantoCoordinateImpl;
 import hanto.studentNMNK.common.HantoPieceImpl;
 import hanto.studentNMNK.common.validator.Validator;
 
-import static hanto.common.MoveResult.*;
-import static hanto.common.HantoPieceType.*;
-import static hanto.common.HantoPlayerColor.*;
-
 /**
  * Gamma Hanto Game class that is responsible for all moves made during a Gamma Hanto game
  * 
@@ -29,16 +25,13 @@ import static hanto.common.HantoPlayerColor.*;
  */
 public class GammaHantoGame implements HantoGame {
 
-	private boolean firstMove = true;
-	private boolean redPlayedButterfly = false;
-	private boolean bluePlayedButterfly = false;
 	private int moveNum = 1;
 	private HantoBoard hantoBoard = new HantoBoard();
 	private final Validator validator;
 	
-	/*
-	 * @see hanto.common.HantoGame#makeMove(hanto.common.HantoPieceType,
-	 * hanto.common.HantoCoordinate, hanto.common.HantoCoordinate)
+	/**
+	 * Constructor for GammaHantoGame taking in a validator to validate moves
+	 * @param validator
 	 */
 	public GammaHantoGame(Validator validator) {
 		this.validator = validator;
@@ -51,16 +44,21 @@ public class GammaHantoGame implements HantoGame {
 		HantoPlayerColor pieceColor;
 		HantoCoordinateImpl newTo = new HantoCoordinateImpl(to);
 		HantoCoordinateImpl newFrom = null;
+		validator.setPieceType(pieceType);
+		pieceColor = validator.getPlayerColor();
+
 		if(from != null) {
 			newFrom = new HantoCoordinateImpl(from);
 		}
-		pieceColor = validator.getPlayerColor();
-
+		
 		if (!validator.isValidMove(pieceType, pieceColor, newFrom, newTo)) {
 			throw new HantoException("Invalid move");
 		}
 
 		hantoBoard.AddPieceToBoard(new HantoPieceImpl(pieceColor, pieceType), newTo);
+		if(from != null) {
+			hantoBoard.removePieceToBoard(newFrom);
+		}
 		moveNum++;
 		validator.updateGame(moveNum, hantoBoard);
 		return validator.getBoardState();

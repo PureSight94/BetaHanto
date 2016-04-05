@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * This files was developed for CS4233: Object-Oriented Analysis & Design.  
+ * The course was taken at Worcester Polytechnic Institute.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *******************************************************************************/
 package hanto.studentNMNK.common.validator;
 
 import static hanto.common.HantoPieceType.BUTTERFLY;
@@ -16,6 +25,12 @@ import hanto.common.MoveResult;
 import hanto.studentNMNK.common.HantoBoard;
 import hanto.studentNMNK.common.HantoCoordinateImpl;
 
+/**
+ * This class contains the specific validation rules to the Beta version of Hanto 
+ * while still containing the common rules defined in AbsValidator
+ * @author Nicholas Muesch & Nicholas Kalamvokis
+ *
+ */
 public class BetaHantoRules extends AbsValidator {
 
 	private final int BUTTERFLY_MUST_BE_PLAYED_MOVE_NUM = 4;
@@ -77,8 +92,9 @@ public class BetaHantoRules extends AbsValidator {
 	 */
 	public boolean isValidSubsequentMove(HantoCoordinate to, HantoCoordinate from) {
 		HantoCoordinateImpl newTo = new HantoCoordinateImpl(to);
-		if (from != null)
+		if (from != null) {
 			return false;
+		}
 		if ((board.isAdjacentToAny(newTo) && !isOccupied(newTo)))
 		{
 			return true;
@@ -91,8 +107,8 @@ public class BetaHantoRules extends AbsValidator {
 	 */
 	@Override
 	public void updateGame(int moveNumber, HantoBoard currentBoard) {
-		this.moveNum = moveNumber;
-		this.board = currentBoard;
+		moveNum = moveNumber;
+		board = currentBoard;
 	}
 
 	/**

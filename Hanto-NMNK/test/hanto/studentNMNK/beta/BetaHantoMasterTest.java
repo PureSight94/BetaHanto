@@ -58,7 +58,7 @@ public class BetaHantoMasterTest
 
 	}
 	
-	private static HantoGameFactory factory;
+	private static HantoGameFactory factory = null;
 	private HantoGame game;
 	
 	@BeforeClass

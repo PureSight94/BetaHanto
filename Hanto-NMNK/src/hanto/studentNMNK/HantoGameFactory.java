@@ -11,7 +11,6 @@
 package hanto.studentNMNK;
 
 import hanto.common.*;
-import hanto.studentNMNK.alpha.AlphaHantoGame;
 import hanto.studentNMNK.beta.BetaHantoGame;
 import hanto.studentNMNK.common.validator.BetaHantoRules;
 import hanto.studentNMNK.common.validator.GammaHantoRules;
@@ -63,9 +62,9 @@ public class HantoGameFactory {
 		HantoGame game = null;
 		Validator validator = null;
 		switch (gameId) {
-		case ALPHA_HANTO:
-			game = new AlphaHantoGame();
-			break;
+//		case ALPHA_HANTO:
+//			game = new AlphaHantoGame();
+//			break;
 		case BETA_HANTO:
 			validator = new BetaHantoRules();
 			game = new BetaHantoGame(movesFirst, validator);
