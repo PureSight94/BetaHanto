@@ -19,7 +19,8 @@ import hanto.studentNMNK.gamma.GammaHantoGame;
 
 /**
  * This is a singleton class that provides a factory to create an instance of
- * any version of a Hanto game. 
+ * any version of a Hanto game.
+ * 
  * @author gpollice
  * @version Feb 5, 2013
  */
@@ -44,7 +45,8 @@ public class HantoGameFactory {
 	 * Create the specified Hanto game version with the Blue player moving
 	 * first.
 	 * 
-	 * @param gameId the version desired.
+	 * @param gameId
+	 *            the version desired.
 	 * @return the game instance
 	 */
 	public HantoGame makeHantoGame(HantoGameID gameId) {
@@ -54,17 +56,16 @@ public class HantoGameFactory {
 	/**
 	 * Factory method that returns the appropriately configured Hanto game.
 	 * 
-	 * @param gameId the version desired.
-	 * @param movesFirst the player color that moves first
+	 * @param gameId
+	 *            the version desired.
+	 * @param movesFirst
+	 *            the player color that moves first
 	 * @return the game instance
 	 */
 	public HantoGame makeHantoGame(HantoGameID gameId, HantoPlayerColor movesFirst) {
 		HantoGame game = null;
 		Validator validator = null;
 		switch (gameId) {
-//		case ALPHA_HANTO:
-//			game = new AlphaHantoGame();
-//			break;
 		case BETA_HANTO:
 			validator = new BetaHantoRules();
 			game = new BetaHantoGame(movesFirst, validator);
